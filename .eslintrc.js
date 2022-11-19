@@ -4,5 +4,9 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
   },
-  extends: ['@remix-run/eslint-config', '@remix-run/eslint-config/node', 'plugin:prettier/recommended'],
+  extends: [
+    '@remix-run/eslint-config',
+    '@remix-run/eslint-config/node',
+    'plugin:prettier/recommended',
+  ],
 };
