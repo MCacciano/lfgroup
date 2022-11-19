@@ -3,13 +3,12 @@ const db = new PrismaClient();
 
 async function seed() {
   // sqlite doesn't support .createMany()
-  await Promise.all(
-    getUsers().map(async user => {
-      const dbUser = await db.user.create({ data: user });
+  getUsers().map(async user => {
+    const dbUser = await db.user.create({ data: user });
 
-      await db.party.create({ data: { name: `${dbUser.username}'s Party`, creatorId: dbUser.id } });
-    })
-  );
+    await db.userProfile.create({ data: { userId: dbUser.id } });
+    await db.party.create({ data: { name: `${dbUser.username}'s Party`, creatorId: dbUser.id } });
+  });
 }
 
 function getUsers() {

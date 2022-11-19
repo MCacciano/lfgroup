@@ -1,9 +1,7 @@
 import type { MetaFunction, LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { getUser } from '~/utils/session.server';
 import {
-  Link,
+  useLoaderData,
   Links,
   LiveReload,
   Meta,
@@ -12,7 +10,10 @@ import {
   ScrollRestoration,
 } from '@remix-run/react';
 
+import { getUser } from '~/utils/session.server';
 import styles from './styles/app.css';
+
+import Navigation from './components/Navigation';
 
 export function links() {
   return [{ rel: 'stylesheet', href: styles }];
@@ -41,25 +42,7 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <nav className="border-b border-gray-900 font-rubik">
-          <div className="flex justify-evenly p-5">
-            <div className="flex-1 flex justify-start">
-              <Link to="/">LFGroup</Link>
-            </div>
-            <div className="flex-1 flex justify-end gap-4">
-              {data?.username ? (
-                <>
-                  <p>{data?.username}</p>
-                  <form action="/logout" method="post">
-                    <button type="submit">Logout</button>
-                  </form>
-                </>
-              ) : (
-                <Link to="/login">Login</Link>
-              )}
-            </div>
-          </div>
-        </nav>
+        <Navigation user={data} />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
