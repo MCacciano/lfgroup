@@ -7,21 +7,11 @@ type LoginForm = {
   password: string;
 };
 
-export async function login({ username, password }: LoginForm) {
-  try {
-    const user = await db.user.findUnique({ where: { username } });
-
-    if (!user) return null;
-
-    const passwordMatch = await bcrypt.compare(password, user.passwordHash);
-
-    if (!passwordMatch) return null;
-
-    return { id: user.id, username };
-  } catch (err) {
-    throw err;
-  }
-}
+type RegisterForm = {
+  username: string;
+  password: string;
+  email: string;
+};
 
 const sessionSecret = process.env.SESSION_SECRET;
 if (!sessionSecret) throw new Error('SESSION_SECRET must be set in your .env file');
@@ -66,6 +56,22 @@ export async function getUser(request: Request) {
   }
 }
 
+export async function login({ username, password }: LoginForm) {
+  try {
+    const user = await db.user.findUnique({ where: { username } });
+
+    if (!user) return null;
+
+    const passwordMatch = await bcrypt.compare(password, user.passwordHash);
+
+    if (!passwordMatch) return null;
+
+    return { id: user.id, username };
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function logout(request: Request) {
   const session = await getUserSession(request);
   return redirect('/login', {
@@ -73,6 +79,16 @@ export async function logout(request: Request) {
       'Set-Cookie': await storage.destroySession(session),
     },
   });
+}
+
+export async function register({ username, password, email }: RegisterForm) {
+  const passwordHash = await bcrypt.hash(password, await bcrypt.genSalt());
+
+  try {
+    return await db.user.create({ data: { username, passwordHash, email } });
+  } catch (err) {
+    throw err;
+  }
 }
 
 export async function requireUserId(

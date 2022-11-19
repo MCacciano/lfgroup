@@ -1,19 +1,7 @@
-import { ActionFunction, LoaderFunction } from '@remix-run/node';
+import type { ActionFunction, LoaderFunction } from '@remix-run/node';
 import { json, redirect } from '@remix-run/node';
 import { Link, useActionData, useSearchParams } from '@remix-run/react';
 import { createUserSession, getUser, login } from '~/utils/session.server';
-
-function validateUsername(username: unknown) {
-  if (typeof username !== 'string' || username.length < 3) {
-    return `Username must be at least 3 characters long.`;
-  }
-}
-
-function validatePassword(password: unknown) {
-  if (typeof password !== 'string' || password.length < 5) {
-    return `Password must be at least 5 characters long.`;
-  }
-}
 
 type ActionData = {
   formError?: string;
@@ -25,6 +13,18 @@ type ActionData = {
     username: string | undefined;
     password: string | undefined;
   };
+};
+
+const validateUsername = (username: unknown) => {
+  if (typeof username !== 'string' || username.length < 3) {
+    return `Username must be at least 3 characters long.`;
+  }
+};
+
+const validatePassword = (password: unknown) => {
+  if (typeof password !== 'string' || password.length < 5) {
+    return `Password must be at least 5 characters long.`;
+  }
 };
 
 const badRequest = (data: ActionData) => json(data, { status: 400 });
@@ -91,8 +91,14 @@ export default function Login() {
               type="text"
               id="username-input"
               name="username"
-              className="w-full border border-black rounded p-1"
+              defaultValue={actionData?.fields?.username}
+              className={`w-full border border-black rounded p-1 ${
+                actionData?.fieldErrors?.username ? 'border-red-600' : ''
+              }`}
             />
+            {actionData?.fieldErrors?.username && (
+              <p className="text-red-600 text-sm">{actionData?.fieldErrors?.username}</p>
+            )}
           </div>
           <div className="flex flex-col items-start gap-y-1">
             <label htmlFor="password-input">Password</label>
@@ -100,16 +106,21 @@ export default function Login() {
               id="password-input"
               name="password"
               type="password"
-              className="w-full border border-black rounded p-1"
+              className={`w-full border border-black rounded p-1 ${
+                actionData?.fieldErrors?.password ? 'border-red-600' : ''
+              }`}
             />
+            {actionData?.fieldErrors?.password && (
+              <p className="text-red-600 text-sm">{actionData?.fieldErrors?.password}</p>
+            )}
           </div>
-          <button type="submit" className="bg-black text-gray-100 p-1 rounded shadow-md">
+          <button type="submit" className={`bg-black text-gray-100 p-1 rounded shadow-md`}>
             Submit
           </button>
           <div className="flex gap-x-1">
             <p>New around here?</p>
             <Link to="/register" className="text-blue-600 cursor-pointer">
-              Sign Up!
+              Register!
             </Link>
           </div>
         </form>
