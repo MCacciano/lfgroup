@@ -10,11 +10,11 @@ export default function Navigation({ user }: { user: any }) {
   };
 
   return (
-    <nav className="border-b border-gray-900 font-rubik">
+    <nav className="sticky top-0 border-b border-gray-900 font-rubik z-50">
       <div className="flex justify-evenly">
         <div className="flex-1 flex justify-start">
-          <Link to="/feed" className="p-5">
-            LFGroup
+          <Link to="/feed" className="p-5 hover:bg-black hover:text-gray-100">
+            theLFG
           </Link>
         </div>
         <div className="flex-1 flex justify-end gap-4">
@@ -46,7 +46,7 @@ export default function Navigation({ user }: { user: any }) {
                       Profile
                     </Link>
                   </li>
-                  <li className="border-b border-gray-900 py-2 px-4 hover:bg-gray-900 hover:text-white">
+                  <li className="py-2 px-4 hover:bg-gray-900 hover:text-white">
                     <form action="/logout" method="post">
                       <button type="submit">Logout</button>
                     </form>
