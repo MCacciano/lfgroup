@@ -1,11 +1,10 @@
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import { Link, Outlet, useLoaderData } from '@remix-run/react';
+import { UserIcon, UsersIcon } from '@heroicons/react/20/solid';
 
 import { db } from '~/utils/db.server';
 import { getUser } from '~/utils/session.server';
-
-import Feed from '~/components/Feed';
 
 type FeedLoaderData = {
   user: Awaited<ReturnType<typeof getUser>>;
@@ -25,15 +24,28 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function FeedPage() {
   const data: FeedLoaderData = useLoaderData();
 
-  console.log('data', data);
-
   return (
     <div className="absolute inset-0 flex max-w-screen-xl mx-auto" style={{ paddingTop: '65px' }}>
-      <div className="w-0 sm:w-1/6 md:w-1/4 bg-gray-200"></div>
-      <div className="w-full md:w-1/2 flex-1 overflow-y-scroll border-r border-l border-black">
-        <Feed parties={data?.parties} />
+      <div className="w-1/6 sm:w-1/5 md:w-1/4">
+        <ul className="flex flex-col items-center font-rubik text-lg md:text-xl">
+          <li>
+            <Link to="/feed/parties" className="flex items-center gap-x-4 p-4 ">
+              <UsersIcon className="w-8" />
+              <p className="hidden sm:block flex-1">Parties</p>
+            </Link>
+          </li>
+          <li>
+            <Link to="/feed/players" className="flex items-center gap-x-4 p-4">
+              <UserIcon className="w-8" />
+              <p className="hidden sm:block flex-1">Players</p>
+            </Link>
+          </li>
+        </ul>
       </div>
-      <div className="w-0 md:w-1/4 bg-gray-200"></div>
+      <div className="w-full md:w-1/2 flex-1 overflow-y-scroll border-r border-l border-black">
+        <Outlet />
+      </div>
+      <div className="w-0 md:w-1/4"></div>
     </div>
   );
 }
