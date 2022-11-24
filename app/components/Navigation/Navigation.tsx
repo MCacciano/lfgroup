@@ -10,7 +10,7 @@ export default function Navigation({ user }: { user: any }) {
   };
 
   return (
-    <nav className="sticky top-0 bg-gray-300 border-b border-gray-900 font-rubik z-50">
+    <nav className="sticky top-0 bg-gray-100 border-b border-gray-900 font-rubik z-50">
       <div className="flex justify-evenly">
         <div className="flex-1 flex justify-start">
           <Link to="/feed" className="p-5 hover:bg-black hover:text-gray-100">

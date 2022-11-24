@@ -1,7 +1,7 @@
 import type { LoaderFunction } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, Outlet, useLoaderData } from '@remix-run/react';
-import { UserIcon, UsersIcon } from '@heroicons/react/20/solid';
+import { PlusCircleIcon, UserIcon, UsersIcon } from '@heroicons/react/20/solid';
 
 import { db } from '~/utils/db.server';
 import { getUser } from '~/utils/session.server';
@@ -39,6 +39,10 @@ export default function FeedPage() {
               <UserIcon className="w-8" />
               <p className="hidden sm:block flex-1">Players</p>
             </Link>
+          </li>
+          <li className="flex items-center gap-x-4 p-2 border border-gray-900 rounded shadow-md cursor-pointer">
+            <p>Create</p>
+            <PlusCircleIcon className="w-8" />
           </li>
         </ul>
       </div>
