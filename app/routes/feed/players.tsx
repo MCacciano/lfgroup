@@ -20,8 +20,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function PlayersFeed() {
   const data: FeedLoaderData = useLoaderData();
 
-  console.log('data', data);
-
   return (
     <div>
       {data?.players.map(player => {

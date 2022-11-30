@@ -40,10 +40,12 @@ export default function FeedPage() {
               <p className="hidden sm:block flex-1">Players</p>
             </Link>
           </li>
-          <li className="flex items-center gap-x-4 p-2 border border-gray-900 rounded shadow-md cursor-pointer">
-            <p>Create</p>
-            <PlusCircleIcon className="w-8" />
-          </li>
+          {!!data.user && (
+            <li className="flex items-center gap-x-4 p-2 border border-gray-900 rounded-full sm:rounded shadow-md cursor-pointer transform hover:scale-105">
+              <p className="hidden text-base sm:inline">Create</p>
+              <PlusCircleIcon className="w-6" />
+            </li>
+          )}
         </ul>
       </div>
       <div className="w-full md:w-1/2 flex-1 overflow-y-scroll border-r border-l border-black">
